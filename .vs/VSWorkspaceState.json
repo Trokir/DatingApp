@@ -1,10 +1,14 @@
 {
   "ExpandedNodes": [
     "",
+    "\\DatingApp-SPA",
     "\\DatingApp.API",
     "\\DatingApp.API\\Controllers",
+    "\\DatingApp.API\\Data",
+    "\\DatingApp.API\\Migrations",
+    "\\DatingApp.API\\Models",
     "\\DatingApp.API\\Properties"
   ],
-  "SelectedNode": "\\DatingApp.API",
+  "SelectedNode": "\\DatingApp.API\\Migrations\\20200328134405_InitialCreate.cs",
   "PreviewInSolutionExplorer": false
 }
