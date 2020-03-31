@@ -27,11 +27,7 @@ namespace DatingApp.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDto user)
         {
-
             // validate request
-            if (!ModelState.IsValid)
-                return BadRequest("Model state is not valid");
-                
             user.UserName = user.UserName.ToLower();
             if (await _repo.UserExists(user.UserName))
                 return BadRequest("Username already exist");
@@ -42,6 +38,8 @@ namespace DatingApp.API.Controllers
             var createdUser = await _repo.Register(userToCreate, user.Password);
             return StatusCode(201);
         }
+
+
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto user)
