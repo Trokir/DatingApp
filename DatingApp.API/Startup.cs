@@ -38,17 +38,19 @@ namespace DatingApp.API
             services.AddDbContext<DataContext>(x =>
                 x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers().AddNewtonsoftJson(
-                opt => {
+                opt =>
+                {
                     opt.SerializerSettings.ReferenceLoopHandling =
                     Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 }
             );
-           
-            services.AddCors();
 
+          
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddAutoMapper(typeof(DatingRepository).Assembly);
             services.AddScoped<IAuthRepository, AuthRepository>();
-             services.AddScoped<IDatingRepository, DatingRepository>();
+            services.AddScoped<IDatingRepository, DatingRepository>();
+              services.AddCors();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -70,26 +72,27 @@ namespace DatingApp.API
             {
                 app.UseDeveloperExceptionPage();
             }
-else
-{
-    app.UseExceptionHandler(builder=> {
-        builder.Run(async context=>{
-            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            var error = context.Features.Get<IExceptionHandlerFeature>();
-            if(error != null)
+            else
             {
-               context.Response.AddAppilcationError(error.Error.Message);
-                await context.Response.WriteAsync(error.Error.Message);
+                app.UseExceptionHandler(builder =>
+                {
+                    builder.Run(async context =>
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                        var error = context.Features.Get<IExceptionHandlerFeature>();
+                        if (error != null)
+                        {
+                            context.Response.AddAppilcationError(error.Error.Message);
+                            await context.Response.WriteAsync(error.Error.Message);
+                        }
+                    });
+                });
             }
-        });
-    });
-}
             //  app.UseHttpsRedirection();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DatingApp.API.Controllers
 {
-    //  [Authorize]
+      [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -26,7 +26,7 @@ namespace DatingApp.API.Controllers
         public async Task<IActionResult> GetUsers()
         {
             var users = await _repo.GetUsers();
-            var usersToReturn = _mapper.Map<IEnumerable<UserForDetailDTO>>(users);
+            var usersToReturn = _mapper.Map<IEnumerable<UserForDetailDto>>(users);
             return Ok(usersToReturn);
         }
 
@@ -34,12 +34,12 @@ namespace DatingApp.API.Controllers
         public async Task<IActionResult> GetUser(int id)
         {
             var user = await _repo.GetUser(id);
-            var userToReturn = _mapper.Map<UserForDetailDTO>(user);
+            var userToReturn = _mapper.Map<UserForDetailDto>(user);
             return Ok(userToReturn);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, UserForUpdateDTO userForUpdateDTO)
+        public async Task<IActionResult> UpdateUser(int id, UserForUpdateDto userForUpdateDTO)
         {
             if(id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
             return Unauthorized();
