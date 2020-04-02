@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {map} from 'rxjs/operators';
@@ -7,7 +8,7 @@ import { from } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-baseUrl = 'http://localhost:5000/api/auth/';
+baseUrl = environment.apiUrl + 'auth/';
 jwtHelper = new JwtHelperService();
 decodedToken: any;
 
